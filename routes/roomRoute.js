@@ -7,7 +7,7 @@ const {addRoom, getAllRooms, getOneRoom} = require('../controllers/roomsControl'
 router.post('/addroom', addRoom);
 
 ////--get all Rooms---
-router.get("/allrooms", getAllRooms);
+router.get("/allrooms", getAllRooms); 
 
 
 ////--get one Room by id

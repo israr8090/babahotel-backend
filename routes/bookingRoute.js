@@ -7,7 +7,8 @@ const Booking = require('../models/bookingModel');
 ////--Booking Room--
 router.post('/bookroom', async (req, res) => {
     //--destructuring
-    const { room, userid, fromdate, todate } = req.body;
+    const { room, userid, fromdate, todate, totalamount, totaldays } = req.body;
+    // console.log(req.body)
 
     try {
         const newbooking = new Booking({
@@ -17,27 +18,28 @@ router.post('/bookroom', async (req, res) => {
             fromdate,
             todate,
             totalamount,
-            totaldays,
+            totaldays, 
             transactionId: '123'
         });
+
+
 
         //--storing in booking var of booking room and save in DB
         const booking =await newbooking.save(); 
 
         //--A temp room making for storing in currentbooking array of room
-        // const roomtemp = await Room.findOne({_id: room._id}); //--find One
+        const roomtemp = await Room.findOne({_id: room._id}); //--find One
 
-        // roomtemp.currentbookings.push({
-        //     bookingid: booking._id, 
-        //     fromdate: fromdate, 
-        //     todate: todate,
-        //     userid: userid,
-        //     status: booking.status
-        // });
+        roomtemp.currentbookings.push({
+            bookingid: booking._id, 
+            fromdate: fromdate, 
+            todate: todate,
+            userid: userid,
+            status: booking.status
+        });
 
         // //-- saving in DB
-        // await roomtemp.save();
-
+        await roomtemp.save();
         res.status(201).send({message:'Room Booked Successfully', booking:booking})
     }
      catch (error) { 
